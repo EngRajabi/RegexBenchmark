@@ -1,15 +1,17 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Order;
 using System;
 using System.Text.RegularExpressions;
 
 namespace RegexBenchmark
 {
-
-    [Orderer(BenchmarkDotNet.Order.SummaryOrderPolicy.FastestToSlowest, BenchmarkDotNet.Order.MethodOrderPolicy.Declared)]
+    [Orderer(SummaryOrderPolicy.FastestToSlowest)]
     public class RegexBenchmarkStep2
     {
         private const string Pattern = @"\d+";
-        private const string Text = "asdjkla j;ajkd;da da asdkswegredsgjvnxvn p ajk;d k;jajkdakjdn k;jbn ak;bjdnak;jbnd 123 ak;bjd ak;sbjd ask;db ;";
+
+        private const string Text =
+            "asdjkla j;ajkd;da da asdkswegredsgjvnxvn p ajk;d k;jajkdakjdn k;jbn ak;bjdnak;jbnd 123 ak;bjd ak;sbjd ask;db ;";
 
         private static readonly RegexOptions regexOptions = RegexOptions.Compiled;
         private static readonly Regex Regex = new(Pattern, regexOptions, TimeSpan.FromMilliseconds(50));
@@ -40,14 +42,15 @@ namespace RegexBenchmark
         [Benchmark]
         public void RegexSourceGenerator()
         {
-            var f = TestGenerator.IsDigit(Text);
+            var f = TestRegexSourceGenerator.IsDigit(Text);
         }
     }
 }
-public static partial class TestGenerator
+
+public static partial class TestRegexSourceGenerator
 {
     // The Source Generator generates the code of the method at compile time
-    [RegexGenerator(@"\d+", RegexOptions.Compiled, matchTimeoutMilliseconds: 50)]
+    [RegexGenerator(@"\d+", RegexOptions.Compiled, 50)]
     private static partial Regex IsDigitRegex();
 
     public static bool IsDigit(string value)
@@ -56,11 +59,13 @@ public static partial class TestGenerator
     }
 }
 
-[Orderer(BenchmarkDotNet.Order.SummaryOrderPolicy.FastestToSlowest, BenchmarkDotNet.Order.MethodOrderPolicy.Declared)]
+[Orderer(SummaryOrderPolicy.FastestToSlowest)]
 public class RegexBenchmarkStep1
 {
     private const string Pattern = @"\d+";
-    private const string Text = "asdjkla j;ajkd;da da asdkswegredsgjvnxvn p ajk;d k;jajkdakjdn k;jbn ak;bjdnak;jbnd 123 ak;bjd ak;sbjd ask;db ;";
+
+    private const string Text =
+        "asdjkla j;ajkd;da da asdkswegredsgjvnxvn p ajk;d k;jajkdakjdn k;jbn ak;bjdnak;jbnd 123 ak;bjd ak;sbjd ask;db ;";
 
     private static readonly Regex Regex = new(Pattern);
 
