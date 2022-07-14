@@ -45,19 +45,22 @@ namespace RegexBenchmark
             var f = TestRegexSourceGenerator.IsDigit(Text);
         }
     }
-}
 
-public static partial class TestRegexSourceGenerator
-{
-    // The Source Generator generates the code of the method at compile time
-    [RegexGenerator(@"\d+", RegexOptions.Compiled, 50)]
-    private static partial Regex IsDigitRegex();
-
-    public static bool IsDigit(string value)
+    //TestRegexSourceGenerator
+    public static partial class TestRegexSourceGenerator
     {
-        return IsDigitRegex().IsMatch(value);
+        // The Source Generator generates the code of the method at compile time
+        [RegexGenerator(@"\d+", RegexOptions.Compiled, 50)]
+        private static partial Regex IsDigitRegex();
+
+        public static bool IsDigit(string value)
+        {
+            return IsDigitRegex().IsMatch(value);
+        }
     }
 }
+
+
 
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 public class RegexBenchmarkStep1
