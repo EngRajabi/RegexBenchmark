@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace RegexBenchmark;
 
@@ -10,7 +9,7 @@ public static class FastRegex
     private static readonly ConcurrentDictionary<string, Regex> Regexes = new();
     private static readonly RegexOptions _defaultOption = RegexOptions.Compiled;
     private static RegexKey _lastRegex;
-    
+
 
     public static Regex GetPattern(string pattern)
     {
@@ -49,7 +48,7 @@ public static class FastRegex
         return regex;
     }
 
-    public struct RegexKey
+    public readonly struct RegexKey
     {
         public readonly string Pattern;
         public readonly Regex Regex;
