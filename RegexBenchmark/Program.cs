@@ -20,9 +20,9 @@ namespace RegexBenchmark
                 .AddAnalyser(BenchmarkDotNet.Analysers.EnvironmentAnalyser.Default)
                 .AddExporter(BenchmarkDotNet.Exporters.MarkdownExporter.GitHub)
                 .AddDiagnoser(BenchmarkDotNet.Diagnosers.MemoryDiagnoser.Default)
-                .AddColumn(StatisticColumn.OperationsPerSecond)
-                //.AddColumn(BaselineRatioColumn.RatioMean)
-                .AddColumn(RankColumn.Arabic);
+                .AddColumn(StatisticColumn.OperationsPerSecond);
+            //.AddColumn(BaselineRatioColumn.RatioMean)
+            //.AddColumn(RankColumn.Arabic);
             //.AddJob(Job.Default.WithRuntime(CoreRuntime.CreateForNewVersion(""))
             //    .WithIterationCount(32)
             //    .WithInvocationCount(64)
