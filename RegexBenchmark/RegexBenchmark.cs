@@ -38,7 +38,7 @@ namespace RegexBenchmark
             var f = Regex.IsMatch(Text);
         }
 
-        //Case4 SourceGenerator
+        //Case3 SourceGenerator
         [Benchmark]
         public void RegexSourceGenerator()
         {
