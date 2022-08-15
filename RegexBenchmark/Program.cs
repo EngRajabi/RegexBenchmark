@@ -30,7 +30,7 @@ namespace RegexBenchmark
             //    .WithWarmupCount(6)
             //    .WithLaunchCount(1));
 
-            BenchmarkRunner.Run<RegexBenchmarkStep2>(config);
+            BenchmarkRunner.Run<StructBenchmark>(config);
         }
     }
 
