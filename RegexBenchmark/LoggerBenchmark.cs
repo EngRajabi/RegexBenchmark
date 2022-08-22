@@ -19,83 +19,31 @@ public class LoggerBenchmark
             builder.Services.AddSingleton<ILoggerProvider, InMemoryProvider>());
         _logger = loggerFactory.CreateLogger(nameof(LoggerBenchmark));
     }
-
-    [Benchmark]
-    public void ErrorStringParam()
-    {
-        var obj = new LoggerObjRecord(10000, "name");
-        LoggerExtensions.ErrorStringParam(_logger, JsonSerializer.Serialize(obj), null);
-    }
-
-    [Benchmark]
-    public void ErrorObjParam()
-    {
-        var obj = new LoggerObjRecord(10000, "name");
-        LoggerExtensions.ErrorOneParam(_logger, obj, null);
-    }
-
-    //[Benchmark]
-    //public void ErrorLevelWithCheck()
-    //{
-    //    LoggerExtensions.ErrorLevelWithCheck(_logger, "this log for test", null);
-    //}
-
+    
     //OriginalCode
     [Benchmark]
     public void OriginalCodeWithManualSerialize()
     {
-        var obj = new LoggerObjRecord(10000, "name");
+        var obj = new LoggerObjRecord(10000, "name adsadd sgdsdfg ererqgreagearg aeg r");
         _logger.LogError("Writing hello world response to {Param1}", JsonSerializer.Serialize(obj));
     }
 
     //OriginalCode
     [Benchmark]
-    public void OriginalCode2()
+    public void OriginalCodeParam()
     {
-        var obj = new LoggerObjRecord(10000, "name");
+        var obj = new LoggerObjRecord(10000, "name adsadd sgdsdfg ererqgreagearg aeg r");
         _logger.LogError("Writing hello world response to {Param1}", obj);
     }
 
-    //LogHelloWorld
+    //LogWithSourceGenerator
     [Benchmark]
-    public void LogHelloWorld()
+    public void LogWithSourceGenerator()
     {
-        var obj = new LoggerObjRecord(10000, "name");
-        LoggerExtensions.LogHelloWorld(_logger, LogLevel.Error, obj);
-    }
-
-    //LogHelloWorld2
-    [Benchmark]
-    public void LogHelloWorld2()
-    {
-        var obj = new LoggerObjRecord(10000, "name");
+        var obj = new LoggerObjRecord(10000, "name adsadd sgdsdfg ererqgreagearg aeg r");
         _logger.LogHelloWorld2(obj);
     }
 
-    //[Benchmark]
-    //public void ErrorStringParam()
-    //{
-    //    LoggerExtensions.ErrorStringParam(_logger, "this log for test", null);
-    //}
-
-    //[Benchmark]
-    //public void ErrorOneParam()
-    //{
-    //    LoggerExtensions.ErrorOneParam(_logger, "this log for test", null);
-    //}
-
-    //[Benchmark]
-    //public void ErrorLevelWithCheck()
-    //{
-    //    LoggerExtensions.ErrorLevelWithCheck(_logger, "this log for test", null);
-    //}
-
-    ////OriginalCode
-    //[Benchmark]
-    //public void OriginalCode()
-    //{
-    //    _logger.LogError("Writing hello world response to {Param1}", "this log for test");
-    //}
 }
 
 public record LoggerObjRecord(long Id, string Name);
