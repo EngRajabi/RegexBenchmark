@@ -50,7 +50,7 @@ namespace RegexBenchmark
     public static partial class TestRegexSourceGenerator
     {
         // The Source Generator generates the code of the method at compile time
-        [RegexGenerator(@"\d+", RegexOptions.Compiled, 50)]
+        [GeneratedRegex(@"\d+", RegexOptions.Compiled, 50)]
         private static partial Regex IsDigitRegex();
 
         public static bool IsDigit(string value)
