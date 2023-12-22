@@ -17,6 +17,7 @@
 			<IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
+		<PackageReference Include="ZLogger" Version="2.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>

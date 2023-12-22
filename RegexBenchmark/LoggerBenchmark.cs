@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.Json;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Text.Json;
+using ZLogger;
 
 namespace RegexBenchmark;
 
@@ -19,13 +20,21 @@ public class LoggerBenchmark
             builder.Services.AddSingleton<ILoggerProvider, InMemoryProvider>());
         _logger = loggerFactory.CreateLogger(nameof(LoggerBenchmark));
     }
-    
+
     //OriginalCode
     [Benchmark]
     public void OriginalCodeWithManualSerialize()
     {
         var obj = new LoggerObjRecord(10000, "name adsadd sgdsdfg ererqgreagearg aeg r");
         _logger.LogError("Writing hello world response to {Param1}", JsonSerializer.Serialize(obj));
+    }
+
+    //OriginalCode
+    [Benchmark]
+    public void OriginalCodeWithInterpolite()
+    {
+        var obj = new LoggerObjRecord(10000, "name adsadd sgdsdfg ererqgreagearg aeg r");
+        _logger.LogError($"Writing hello world response to {obj.Id} {obj.Name}");
     }
 
     //OriginalCode
@@ -42,6 +51,14 @@ public class LoggerBenchmark
     {
         var obj = new LoggerObjRecord(10000, "name adsadd sgdsdfg ererqgreagearg aeg r");
         _logger.LogHelloWorld2(obj);
+    }
+
+    //ZLogger
+    [Benchmark]
+    public void ZLogger()
+    {
+        var obj = new LoggerObjRecord(10000, "name adsadd sgdsdfg ererqgreagearg aeg r");
+        _logger.ZLogError($"Writing hello world response to {obj.Id} {obj.Name}");
     }
 
 }
