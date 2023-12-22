@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Threading.Tasks;
+using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
 
 namespace RegexBenchmark;
@@ -11,6 +12,7 @@ public class StructBenchmark
     {
         var s = new Person("Mohsen", "Rajabi");
         var g = s.Family;
+        s.SetDelay();
     }
 
     [Benchmark]
@@ -18,6 +20,7 @@ public class StructBenchmark
     {
         var s = new PersonReadonly("Mohsen", "Rajabi");
         var g = s.Family;
+        s.SetDelay();
     }
 
     [Benchmark]
@@ -25,6 +28,7 @@ public class StructBenchmark
     {
         var s = new PersonStructRecord("Mohsen", "Rajabi");
         var g = s.Family;
+        s.SetDelay();
     }
 
     [Benchmark]
@@ -32,6 +36,7 @@ public class StructBenchmark
     {
         var s = new PersonClassRecord("Mohsen", "Rajabi");
         var g = s.Family;
+        s.SetDelay();
     }
 
     [Benchmark]
@@ -39,6 +44,7 @@ public class StructBenchmark
     {
         var s = new PersonSealed("Mohsen", "Rajabi");
         var g = s.Family;
+        s.SetDelay();
     }
 
     [Benchmark]
@@ -46,12 +52,40 @@ public class StructBenchmark
     {
         var s = new PersonClass("Mohsen", "Rajabi");
         var g = s.Family;
+        s.SetDelay();
     }
 }
 
-public readonly record struct PersonStructRecord(string Name, string Family);
+public class BasePerson
+{
+    public virtual Task SetDelay()
+    {
+        return Task.CompletedTask;
+    }
+}
+public record class RecordBasePerson
+{
+    public virtual Task SetDelay()
+    {
+        return Task.CompletedTask;
+    }
+}
 
-public record class PersonClassRecord(string Name, string Family);
+public readonly record struct PersonStructRecord(string Name, string Family)
+{
+    public Task SetDelay()
+    {
+        return Task.CompletedTask;
+    }
+}
+
+public record class PersonClassRecord(string Name, string Family) : RecordBasePerson
+{
+    public override Task SetDelay()
+    {
+        return Task.CompletedTask;
+    }
+}
 
 public readonly struct PersonReadonly
 {
@@ -63,6 +97,11 @@ public readonly struct PersonReadonly
 
     public string Name { get; init; }
     public string Family { get; init; }
+
+    public Task SetDelay()
+    {
+        return Task.CompletedTask;
+    }
 }
 
 public struct Person
@@ -75,9 +114,15 @@ public struct Person
 
     public string Name { get; init; }
     public string Family { get; init; }
+
+
+    public Task SetDelay()
+    {
+        return Task.CompletedTask;
+    }
 }
 
-public sealed class PersonSealed
+public sealed class PersonSealed : BasePerson
 {
     public PersonSealed(string name, string family)
     {
@@ -87,9 +132,14 @@ public sealed class PersonSealed
 
     public string Name { get; init; }
     public string Family { get; init; }
+
+    public override Task SetDelay()
+    {
+        return Task.CompletedTask;
+    }
 }
 
-public class PersonClass
+public class PersonClass : BasePerson
 {
     public PersonClass(string name, string family)
     {
@@ -99,4 +149,9 @@ public class PersonClass
 
     public string Name { get; init; }
     public string Family { get; init; }
+
+    public override Task SetDelay()
+    {
+        return Task.CompletedTask;
+    }
 }
