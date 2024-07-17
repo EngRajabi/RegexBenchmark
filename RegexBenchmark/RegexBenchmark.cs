@@ -13,14 +13,14 @@ namespace RegexBenchmark
         private const string Text =
             "asdjkla j;ajkd;da da asdkswegredsgjvnxvn p ajk;d k;jajkdakjdn k;jbn ak;bjdnak;jbnd 123 ak;bjd ak;sbjd ask;db ;";
 
-        private static readonly RegexOptions regexOptions = RegexOptions.Compiled;
-        private static readonly Regex Regex = new(Pattern, regexOptions, TimeSpan.FromMilliseconds(50));
+        private const RegexOptions RegexOptions = System.Text.RegularExpressions.RegexOptions.Compiled;
+        private static readonly Regex Regex = new(Pattern, RegexOptions, TimeSpan.FromMilliseconds(50));
 
         //OriginalCode
         [Benchmark]
         public void OriginalCode()
         {
-            var regex = new Regex(Pattern, regexOptions, TimeSpan.FromMilliseconds(50));
+            var regex = new Regex(Pattern, RegexOptions, TimeSpan.FromMilliseconds(50));
             var f = regex.IsMatch(Text);
         }
 
@@ -28,7 +28,7 @@ namespace RegexBenchmark
         [Benchmark]
         public void RegexStaticMethodCase1()
         {
-            var f = Regex.IsMatch(Text, Pattern, regexOptions, TimeSpan.FromMilliseconds(50));
+            var f = Regex.IsMatch(Text, Pattern, RegexOptions, TimeSpan.FromMilliseconds(50));
         }
 
         //Case2
@@ -44,6 +44,7 @@ namespace RegexBenchmark
         {
             var f = TestRegexSourceGenerator.IsDigit(Text);
         }
+
     }
 
     //TestRegexSourceGenerator
